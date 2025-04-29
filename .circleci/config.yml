@@ -1,24 +1,23 @@
 version: 2.1
-
 jobs:
-
-  build-and-test:
-
-    machine:
-      image: ubuntu-2204:2024.11.1
-      docker_layer_caching: true
+  test:
+    docker:
+      - image: cimg/python:3.13
     steps:
       - checkout
-      - run: make deps 
-      - run: make test
-      - run: make docker_push
-      
-workflows: 
-
-  basic:  
-
-    jobs: 
-
-      - build-and-test 
-
- 
+      - run:
+          name: Install Dependencies
+          command: |
+            python -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+      - run:
+          name: Run Tests
+          command: |
+            . venv/bin/activate
+            PYTHONPATH=. py.test --verbose -s
+workflows:
+  version: 2
+  test_workflow:
+    jobs:
+      - test
