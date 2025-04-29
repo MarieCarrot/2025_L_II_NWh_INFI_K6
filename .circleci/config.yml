@@ -6,6 +6,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Set PYTHONPATH
+          command: echo "export PYTHONPATH=\"$PYTHONPATH:$(pwd)\"" >> $BASH_ENV
+      - run:
           name: Install Dependencies
           command: |
             python -m venv venv
