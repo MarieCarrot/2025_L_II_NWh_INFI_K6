@@ -11,11 +11,12 @@ jobs:
             python -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
+            pip install pytest
       - run:
           name: Run Tests
           command: |
             . venv/bin/activate
-            PYTHONPATH=. py.test --verbose -s
+            pytest --verbose -s
 workflows:
   version: 2
   test_workflow:
